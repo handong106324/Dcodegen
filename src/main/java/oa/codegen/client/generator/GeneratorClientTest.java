@@ -24,6 +24,11 @@ public class GeneratorClientTest {
         GeneratorClient client = new GeneratorClient() ;
         Entity entity = createEntity();
         client.generate(TEMPLATE_PATH,output_path,"entity.ftl",entity);
+
+        //create manager
+        Entity managerEntity = createManager(entity);
+        client.generate(TEMPLATE_PATH,output_path,"manager.ftl",managerEntity);
+        //create service
     }
 
     private Entity createEntity() {
@@ -40,6 +45,20 @@ public class GeneratorClientTest {
         business.setAnnotationTypes(types);
         return business;
     }
+
+    private Entity createManager(Entity entity) {
+        String className = entity.getClassName()+"Manager";
+        boolean isConstructors = true;
+        String packageName = entity.getJavaPackage().substring(0,entity.getJavaPackage().lastIndexOf(".")+1)+"manager";
+        String dbInstance = "soeasy_oa";
+        Entity business = createEntity("", className, isConstructors, packageName, dbInstance);
+        business.setSuperclass("HibernateEntityDao");
+        List<AnnotationType> types = new ArrayList<AnnotationType>();
+        types.add(new ServiceAnnotationType());
+        business.setAnnotationTypes(types);
+        return business;
+    }
+
 
     private Entity createEntity(String tableName, String className, boolean isConstructors, String packageName, String dbInstance) {
         Entity business = new Entity();
