@@ -27,10 +27,10 @@ public class GeneratorClientTest {
     }
 
     private Entity createEntity() {
-        String tableName = "BASIC_BUSINESS";
-        String className = "ViewBus";
+        String tableName = "PROCESS_NODE_MSG";
+        String className = "ProcessNodeMsg";
         boolean isConstructors = true;
-        String packageName = "oa.codegen.created.entity";
+        String packageName = "com.souyidai.oa.persistence";
         String dbInstance = "soeasy_oa";
         Entity business = createEntity(tableName, className, isConstructors, packageName, dbInstance);
 
@@ -60,7 +60,7 @@ public class GeneratorClientTest {
             if(tableField.isAutoInctement()){//其实可以通过primarykey
                 property = new HibernateField(tableField.getColumnName(),PropertyType.getType(tableField.getColumnClassName()),tableField.getRemark(),new IdGeneratorAnnotationType());
             }else {
-                property = new HibernateField(tableField.getColumnName(),PropertyType.getType(tableField.getColumnClassName()),tableField.getRemark(),tableField.getColumnDisplaySize(),Boolean.getBoolean(tableField.getIsNullable()+""));
+                property = new HibernateField(MysqlConnTool.transferDbFieldNameToJavaFieldName(tableField.getColumnName()), PropertyType.getType(tableField.getColumnClassName()), tableField.getRemark(), tableField.getColumnDisplaySize(), Boolean.getBoolean(tableField.getIsNullable() + ""));
             }
             fields.add(property);
         }

@@ -37,4 +37,17 @@ public class ${entity.className}<#if entity.superclass?has_content> extends ${en
     }
 
     </#list>
+
+    @Override
+    public String toString() {
+    return "${entity.className}{" +
+            <#list entity.properties as property>
+                <#if property_index == 0>
+                "${property.propertyName}=" + ${property.propertyName} +
+                <#else >
+                ",${property.propertyName}=" + ${property.propertyName} +
+                </#if>
+            </#list>
+            '}';
+    }
 }
