@@ -20,7 +20,7 @@ public class ColumnAnnotationType extends AnnotationType {
         String len = "";
         String nullAble = "";
         if (maxLen > 0) len = ", length = " + maxLen;
-        if (!isNull) nullAble = ", nullable = false";
+//        if (!isNull) nullAble = ", nullable = false";
         setAnnotationInfo( "@Column(name=\"" + GenJavaContent.transferFieldToTableField(propertyName ) + "\"" + len + nullAble + ")");
     }
 

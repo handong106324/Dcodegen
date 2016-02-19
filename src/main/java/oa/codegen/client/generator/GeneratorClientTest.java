@@ -32,8 +32,8 @@ public class GeneratorClientTest {
     }
 
     private Entity createEntity() {
-        String tableName = "PROCESS_NODE_MSG";
-        String className = "ProcessNodeMsg";
+        String tableName = "OA_PROCESS_STATUS";
+        String className = "OaFlowStatus";
         boolean isConstructors = true;
         String packageName = "com.souyidai.oa.persistence";
         String dbInstance = "soeasy_oa";
