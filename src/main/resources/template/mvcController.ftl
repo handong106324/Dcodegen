@@ -26,8 +26,13 @@ public class ${entity.className}<#if entity.superclass?has_content> extends ${en
     </#list>
 
     @RequestMapping("${entity.baseRequestMapUrl}-list")
-    public String list(${entity.listParams}){
-        MsgStatusEnum msgStatusEnum =MsgStatusEnum.getByStatus(status);
+    public String list(
+        <#list entity.properties as property>
+        public ${property.propertyType} get${property.propertyName?cap_first}() {
+        return ${property.propertyName};
+        }
+        </#list>
+    ){
         List<PropertyFilter> filters = new ArrayList<>();
 
         if(null == msgStatusEnum){

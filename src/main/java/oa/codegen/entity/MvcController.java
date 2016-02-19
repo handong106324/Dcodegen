@@ -14,13 +14,13 @@ public class MvcController extends Entity {
 
     private String baseRequestMapUrl;
 
-    private String listParams;
+    private List<DRequestParamter> listParams;
 
-    private String showParams;
+    private List<DRequestParamter>  showParams;
 
-    private String delParams;
+    private List<DRequestParamter>  delParams;
 
-    private String updateParam;
+    private List<DRequestParamter>  updateParam;
 
     public String getControllerAlias() {
         return controllerAlias;
@@ -46,35 +46,35 @@ public class MvcController extends Entity {
         this.baseRequestMapUrl = baseRequestMapUrl;
     }
 
-    public String getListParams() {
+    public List<DRequestParamter> getListParams() {
         return listParams;
     }
 
-    public void setListParams(String listParams) {
+    public void setListParams(List<DRequestParamter> listParams) {
         this.listParams = listParams;
     }
 
-    public String getShowParams() {
+    public List<DRequestParamter> getShowParams() {
         return showParams;
     }
 
-    public void setShowParams(String showParams) {
+    public void setShowParams(List<DRequestParamter> showParams) {
         this.showParams = showParams;
     }
 
-    public String getDelParams() {
+    public List<DRequestParamter> getDelParams() {
         return delParams;
     }
 
-    public void setDelParams(String delParams) {
+    public void setDelParams(List<DRequestParamter> delParams) {
         this.delParams = delParams;
     }
 
-    public String getUpdateParam() {
+    public List<DRequestParamter> getUpdateParam() {
         return updateParam;
     }
 
-    public void setUpdateParam(String updateParam) {
+    public void setUpdateParam(List<DRequestParamter> updateParam) {
         this.updateParam = updateParam;
     }
 
