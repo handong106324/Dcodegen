@@ -27,6 +27,21 @@ public class MysqlConnTool {
         }
         return conn;
     }
+    public static Connection getConnection(String dbIns) {
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://soeasyriskdb:3306/"+dbIns;
+            String user = "soeasy";
+            String pass = "soeasy";
+            conn = DriverManager.getConnection(url, user, pass);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
 
     public static void colseConnection(Connection connection) {
         if(null != connection) {
@@ -39,7 +54,7 @@ public class MysqlConnTool {
     }
 
     public static String transferDbFieldNameToJavaFieldName(String key) {
-        String[] names = key.split("_");
+        String[] names = key.toLowerCase().split("_");
         int index = 0 ;
         String newName = "";
         for(String name : names) {

@@ -10,6 +10,13 @@ public class DRequestParamter {
     private String type;
     private String valueType;
 
+    public DRequestParamter(String alias, String defaultValue, String type, String valueType) {
+        this.alias = alias;
+        this.defaultValue = defaultValue;
+        this.type = type;
+        this.valueType = valueType;
+    }
+
     public String getAlias() {
         return alias;
     }

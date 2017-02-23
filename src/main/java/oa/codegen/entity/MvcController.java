@@ -21,6 +21,15 @@ public class MvcController extends Entity {
     private List<DRequestParamter>  delParams;
 
     private List<DRequestParamter>  updateParam;
+    private List<String> managerImports;
+
+    public List<String> getManagerImports() {
+        return managerImports;
+    }
+
+    public void setManagerImports(List<String> managerImports) {
+        this.managerImports = managerImports;
+    }
 
     public String getControllerAlias() {
         return controllerAlias;

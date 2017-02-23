@@ -2,33 +2,55 @@ package oa.codegen.client.generator;
 
 import oa.codegen.client.dbfield.DbFieldQueryClient;
 import oa.codegen.client.dbfield.TableField;
+import oa.codegen.entity.DRequestParamter;
 import oa.codegen.entity.Entity;
+import oa.codegen.entity.MvcController;
 import oa.codegen.field.*;
 import oa.codegen.property.Property;
 import oa.codegen.property.PropertyType;
 import oa.codegen.sql.MysqlConnTool;
 import org.junit.Test;
+import testmock.ControllerTest;
+import testmock.ControllerTestClient;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * Created by handong on 16/1/18.
  */
 public class GeneratorClientTest {
+    String TEMPLATE_PATH = "../template";
+    String output_path = "./src/main/java";
     @Test
-    public void testClient(){
-        String TEMPLATE_PATH = "./src/main/resources/template";
-        String output_path = "./src/main/java";
-        GeneratorClient client = new GeneratorClient() ;
-        Entity entity = createEntity();
-        client.generate(TEMPLATE_PATH,output_path,"entity.ftl",entity);
+    public void testClient() throws IOException {
 
-        //create manager
-        Entity managerEntity = createManager(entity);
-        client.generate(TEMPLATE_PATH,output_path,"manager.ftl",managerEntity);
-        //create service
+        GeneratorClient client = new GeneratorClient() ;
+//        Entity entity = createEntity();
+//        client.generate(TEMPLATE_PATH,output_path,"entity.ftl",entity);
+//
+//        //create manager
+//        Entity managerEntity = createManager(entity);
+//        client.generate(TEMPLATE_PATH,output_path,"manager.ftl",managerEntity);
+        //create controller
+        MvcController mvcController = createController();
+        client.generate(TEMPLATE_PATH,output_path,"mvcController.ftl",mvcController);
+    }
+//
+    @Test
+    public void testControllerTest(){
+        GeneratorClient client = new GeneratorClient() ;
+
+        ControllerTest mvcController = new ControllerTestClient(com.souyidai.oa.RiskForm.class).getControllerTest();
+        String className = "TestStatusController";
+        String packageName = "com.souyidai.oa.persistence";
+        mvcController.setClassName(className);
+        mvcController.setJavaPackage(packageName);
+        client.generate(TEMPLATE_PATH,output_path,"testController.ftl",mvcController);
     }
 
     private Entity createEntity() {
@@ -57,6 +79,25 @@ public class GeneratorClientTest {
         types.add(new ServiceAnnotationType());
         business.setAnnotationTypes(types);
         return business;
+    }
+
+    private MvcController createController(){
+        MvcController mvcController = new MvcController();
+        mvcController.setBaseHibernateManager("loanInfoManager");//.class.getSimpleName());
+        List<DRequestParamter> listParams = new ArrayList<DRequestParamter>();
+        listParams.add(new DRequestParamter("name","","@RequestParam","String"));
+        mvcController.setListParams(listParams);
+        mvcController.setJavaPackage("com.bb");
+        List<String> manas = new ArrayList<String>();
+        manas.add("loanInfoManager");
+        mvcController.setHibernateManagerList(manas);
+        mvcController.setClassName("BController");
+        mvcController.setBaseRequestMapUrl("ll-rr");
+        List<String> imports = new ArrayList<>();
+//        imports.add(LoanInfoManager.class.getPackage().getName()+"."+LoanInfoManager.class.getSimpleName());
+        mvcController.setManagerImports(imports);
+        mvcController.setControllerAlias("bbtest");
+        return mvcController;
     }
 
 

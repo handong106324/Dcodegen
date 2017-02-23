@@ -10,6 +10,10 @@ import java.util.List;
  * Created by handong on 16/1/15.
  */
 public class Entity {
+
+    private String contextFlag = "$";
+
+    private String type = "java";//jsp or java
     // 实体所在的包名
     private String javaPackage;
     // 实体类名
@@ -69,5 +73,21 @@ public class Entity {
 
     public void setAnnotationTypes(List<AnnotationType> annotationTypes) {
         this.annotationTypes = annotationTypes;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContextFlag() {
+        return contextFlag;
+    }
+
+    public void setContextFlag(String contextFlag) {
+        this.contextFlag = contextFlag;
     }
 }

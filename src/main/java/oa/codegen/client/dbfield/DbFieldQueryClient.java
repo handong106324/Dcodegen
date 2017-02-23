@@ -1,7 +1,9 @@
 package oa.codegen.client.dbfield;
 
 import oa.codegen.sql.MysqlConnTool;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import risk.codegen.entity.EntityProperty;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -78,17 +80,44 @@ public class DbFieldQueryClient {
         return  rs.getString("REMARKS") ;
     }
 
-
-    @Test
-    public void test() {
-        Connection connection = MysqlConnTool.getConnection("soeasyoadb", "3306", "soeasy_oa", "soeasy", "soeasy");
+    public static List<EntityProperty> loadPropToField(Connection connection,String dbName){
+        List<EntityProperty> list = new ArrayList<>();
         try {
             DatabaseMetaData dbmd = connection.getMetaData();
-            ResultSet resultSet = dbmd.getTables(null, "%", "BASIC_BUSINESS", new String[]{"TABLE"});
+            ResultSet resultSet = dbmd.getTables(null, "%", dbName, new String[]{"TABLE"});
             while (resultSet.next()) {
                 String tableName = resultSet.getString("TABLE_NAME");
                 System.out.println(tableName);
-                if (tableName.equals("BASIC_BUSINESS")) {
+                if (tableName.equalsIgnoreCase(dbName)) {
+                    ResultSet rs = dbmd.getColumns(null, "%", tableName, "%");
+                    System.out.println("表名：" + tableName + "\t\n表字段信息：");
+                    while (rs.next()) {
+                        System.out.println("字段名：" + rs.getString("COLUMN_NAME") + "\t字段注释：" + rs.getString("REMARKS") + "\t字段数据类型：" + rs.getString("TYPE_NAME"));
+                        String remark = rs.getString("REMARKS");
+                        String columnName = rs.getString("COLUMN_NAME");
+                        if(StringUtils.isNotBlank(remark) && !"id".equals(columnName)){
+                            list.add(new EntityProperty(remark,MysqlConnTool.transferDbFieldNameToJavaFieldName(columnName)));
+                        }
+                    }
+                    System.out.println("生成成功！");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Test
+    public void test() {
+        Connection connection = MysqlConnTool.getConnection("soeasyoadb", "3306", "soeasy_riskmanage", "soeasy", "soeasy");
+        try {
+            DatabaseMetaData dbmd = connection.getMetaData();
+            ResultSet resultSet = dbmd.getTables(null, "%", "risk_form", new String[]{"TABLE"});
+            while (resultSet.next()) {
+                String tableName = resultSet.getString("TABLE_NAME");
+                System.out.println(tableName);
+                if (tableName.equals("risk_form")) {
                     //ResultSet rs =getConnection.getMetaData().getColumns(null, getXMLConfig.getSchema(),tableName.toUpperCase(), "%");//其他数据库不需要这个方法的，直接传null，这个是oracle和db2这么用
                     ResultSet rs = dbmd.getColumns(null, "%", tableName, "%");
                     System.out.println("表名：" + tableName + "\t\n表字段信息：");
